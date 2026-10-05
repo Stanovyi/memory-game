@@ -51,6 +51,10 @@
   let scoreAlreadySaved = false;
 
   function showWinModal(finalMoves) {
+    if (leaderboardModal.isOpen()) {
+      leaderboardModal.close();
+    }
+
     if (!scoreAlreadySaved) {
       saveGameScore(finalMoves);
       scoreAlreadySaved = true;

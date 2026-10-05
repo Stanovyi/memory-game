@@ -26,6 +26,7 @@ function createMemoryGame(gameOptions) {
   let matchedPairsCount = 0;
   let gameIsFinished = false;
   let mismatchTimerId = null;
+  let winTimerId = null;
   let cardButtons = [];
 
   function refreshCounters() {
@@ -123,9 +124,11 @@ function createMemoryGame(gameOptions) {
 
       if (matchedPairsCount === PAIRS_TO_WIN) {
         gameIsFinished = true;
-        setTimeout(function () {
+        const finalMoves = movesCount;
+        winTimerId = setTimeout(function () {
+          winTimerId = null;
           if (handleGameWon) {
-            handleGameWon(movesCount);
+            handleGameWon(finalMoves);
           }
         }, 400);
       }
@@ -145,6 +148,11 @@ function createMemoryGame(gameOptions) {
     if (mismatchTimerId) {
       clearTimeout(mismatchTimerId);
       mismatchTimerId = null;
+    }
+
+    if (winTimerId) {
+      clearTimeout(winTimerId);
+      winTimerId = null;
     }
 
     openedFirstCard = null;
